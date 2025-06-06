@@ -1,0 +1,23 @@
+{
+  "name": "gsap-ease-research",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.1",
+    "@vitejs/plugin-vue": "^5.0.0",
+    "sass": "^1.87.0",
+    "typescript": "~5.6.2",
+    "vite": "^6.0.1",
+    "vue-tsc": "^2.0.0"
+  },
+  "dependencies": {
+    "gsap": "^3.13.0",
+    "vue": "^3.4.0"
+  }
+}
