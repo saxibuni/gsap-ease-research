@@ -127,24 +127,41 @@ function onSpinEnd() {
 
 分析 gsap 源码可知  
 
-`power1.in`对应的函数为 $f(p) = p^2$  
-函数求导为：  
-$f'(p) = 2p$  
-该运动函数在进度 1 处的导数为$f'(1) = 2$， 即$v_1 = 2$
+`power1.in`对应的函数为 
 
-`none`对应的函数为 $f(p) = p$  
+$f(p) = p^2$
+
 函数求导为：
-$f'(p) = 1$  
-该运动函数在进度 0 处的导数为 $f'(0) = 1$，在进度 1 处的导数为$f'(1) = 1$，即$v_0 = 1$, $v_1 = 1$
 
-`power1.out`对应函数为 $f(p)$ = 1 - $(1-p)^2$  
-函数求导为:  
-$f(p) = 1 - (1-p)^2 = 2p -p^2$      
-$f'(p) = 2 - 2p$   
-该运动函数在进度 0 处的导数为 $f'(0)$ = 2，即$v_0$ = 2  
+$f'(p) = 2p$
+
+该运动函数在进度 1 处的导数为 $f'(1) = 2$， 即 $v_1 = 2$
+
+`none`对应的函数为 
+
+$f(p) = p$
+
+函数求导为：
+
+$f'(p) = 1$
+
+该运动函数在进度 0 处的导数为 $f'(0) = 1$，在进度 1 处的导数为 $f'(1) = 1$，即 $v_0 = 1$, $v_1 = 1$
+
+`power1.out`对应函数为 
+
+$f(p) = 1 - (1-p)^2$
+
+函数求导为:
+
+$f(p) = 1 - (1-p)^2 = 2p - p^2$
+
+$f'(p) = 2 - 2p$
+
+该运动函数在进度 0 处的导数为 $f'(0) = 2$，即 $v_0 = 2$
+
 <br>
 
-#### 2.2 程序中的参数计算
+### 2.2 程序中的参数计算
 
 第一段动画为基准，计算第二段匀速动画应该设置的时间
 第一段
@@ -189,81 +206,114 @@ t = diff / (360 / 0.6) * 2
 <br>
 <br>
 
-#### 2.3 N阶缓入函数和N阶缓出函数导数计算
+### 2.3 N阶缓入函数和N阶缓出函数导数计算
 
 gsap 各类缓动函数的源码部分现已提取`src/gsap-ease-functional.ts`文件中。根据源码可知  
 
-**n (n > 1) 阶缓入函数：** $f(p) = p^n$  
-$f'(p) = np^{n-1}$  
-$f'(0) = 0$, $f'(1) = 1$  
-即 n 阶缓入函数在起始阶段的速度为 1，在结束阶段阶段的速度为 n
-<br>
-<br>
-**n (n > 1) 阶缓出函数：** $f(p) = 1 - (1-p)^n$  
-设 v = 1 - p，则$f(p) = 1 - v^n$, 且 $ \frac{dv}{dp} = -1$。
+**n (n > 1) 阶缓入函数：** 
 
-$ f(p) = v^n$  
-$ f'(p) = 1 - nv^{n-1} \cdot \frac{dv}{dp}$  
-$ = -n(1-p)^{n-1} \cdot -1$  
-$ = n (1 - p)^{n - 1} $   
-$f'(0) = n$, $f'(1) = 0$  
-即 n 阶缓入函数在起始阶段的速度为 0，在结束阶段阶段的速度为 n  
+$f(p) = p^n$
+
+$f'(p) = np^{n-1}$
+
+$f'(0) = 0, \quad f'(1) = n$
+
+即 n 阶缓入函数在起始阶段的速度为 0，在结束阶段的速度为 n
+
+<br>
+
+**n (n > 1) 阶缓出函数：** 
+
+$f(p) = 1 - (1-p)^n$
+
+设 $v = 1 - p$，则 $f(p) = 1 - v^n$, 且 $\frac{dv}{dp} = -1$。
+
+$f'(p) = 1 - nv^{n-1} \cdot \frac{dv}{dp}$
+
+$= 1 - n(1-p)^{n-1} \cdot (-1)$
+
+$= n(1-p)^{n-1}$
+
+$f'(0) = n, \quad f'(1) = 0$
+
+即 n 阶缓出函数在起始阶段的速度为 n，在结束阶段的速度为 0
 
 **总结**：   
 Power[n].in 在起始阶段速度为0， 在结束阶段速度为n  
 Power[n].out 在起始阶段速度为n, 在结束阶段速度为0
 
 ![gsap动画预览](public/ease.gif)
+
 [gsap动画预览工具链接地址](https://gsap.com/docs/v3/Eases)
-<br>
+
 <br>
 
-#### 2.4 扩展与延申
-我们不仅有缓入函数和缓出函数，也存在这种这种先缓入在缓出的组合函数  
+### 2.4 扩展与延申
+
+我们不仅有缓入函数和缓出函数，也存在这种先缓入再缓出的组合函数  
 比如**Power2.inOut**，通过分析源码可知其对应函数为**两段分段函数组合**而成，函数方程式和函数曲线如下
+
 ![缓入缓出动画](public/ease-in-out.png)
 
 [函数图形绘制工具](https://www.geogebra.org/graphing)
 
 这种分段函数肯定也必须满足在衔接点的进度值和速度相同，也就是连续可导，否则这种组合函数也无法平滑过渡  
-进度值直接带入x = 0.5，$f(x) = g(x) = 0.5$,即此处进度值相等
+进度值直接带入 $x = 0.5$，$f(x) = g(x) = 0.5$，即此处进度值相等
 
-我们需要证明以下分段函数在 $ p = 0.5 $ 处的导数在两个区间相等。函数定义如下，参数 $ p $ 的范围为 $ [0, 1] $：
+我们需要证明以下分段函数在 $p = 0.5$ 处的导数在两个区间相等。函数定义如下，参数 $p$ 的范围为 $[0, 1]$：
 
-当 $ p < 0.5 $ 时：$ f(p) = \frac{(2p)^{\text{power}}}{2} $  
-当 $ p \geq 0.5 $ 时：$ f(p) = 1 - \frac{(2(1 - p))^{\text{power}}}{2} $
+当 $p < 0.5$ 时：
 
-这里 $ \text{power} $ 为任意实数，我们的目标是计算 $ p = 0.5 $ 处的左导数和右导数，并验证它们是否相等。
+$f(p) = \frac{(2p)^{\text{power}}}{2}$
 
+当 $p \geq 0.5$ 时：
 
-**计算导数**  
-**(1) 对于 $ p < 0.5 $ 的部分**  
-函数为：  
-$ f(p) = \frac{(2p)^{\text{power}}}{2} $
+$f(p) = 1 - \frac{(2(1 - p))^{\text{power}}}{2}$
 
-- 设 $ u = 2p $，则 $ f(p) = \frac{1}{2} u^{\text{power}} $，且 $ \frac{du}{dp} = 2 $。
-- 对 $ p $ 求导：
-$ f'(p) = \frac{1}{2} \cdot \text{power} \cdot u^{\text{power} - 1} \cdot \frac{du}{dp} $  
-$ = \frac{1}{2} \cdot \text{power} \cdot (2p)^{\text{power} - 1} \cdot 2 $  
-$ = \text{power} \cdot (2p)^{\text{power} - 1} $  
-$ = \text{power} \cdot 2^{\text{power} - 1} \cdot p^{\text{power} - 1} $
+这里 $\text{power}$ 为任意实数，我们的目标是计算 $p = 0.5$ 处的左导数和右导数，并验证它们是否相等。
 
-于是，当 $ p < 0.5 $ 时，导数为：  
-$ f'(p) = \text{power} \cdot 2^{\text{power} - 1} \cdot p^{\text{power} - 1} $
+**计算导数**
 
+**(1) 对于 $p < 0.5$ 的部分**
 
-**(2) 对于 $ p \geq 0.5 $ 的部分**  
-函数为：  
-$ f(p) = 1 - \frac{(2(1 - p))^{\text{power}}}{2} $
+函数为：
 
-- 设 $ v = 2(1 - p) $，则 $ f(p) = 1 - \frac{1}{2} v^{\text{power}} $，且 $ \frac{dv}{dp} = -2 $。  
-- 对 $ p $ 求导：$ f'(p) = 0 - \frac{1}{2} \cdot \text{power} \cdot v^{\text{power} - 1} \cdot \frac{dv}{dp} $  
-$ = -\frac{1}{2} \cdot \text{power} \cdot (2(1 - p))^{\text{power} - 1} \cdot (-2) $  
-$ = \text{power} \cdot (2(1 - p))^{\text{power} - 1} $  
-$ = \text{power} \cdot 2^{\text{power} - 1} \cdot (1 - p)^{\text{power} - 1} $
+$f(p) = \frac{(2p)^{\text{power}}}{2}$
 
-于是，当 $ p \geq 0.5 $ 时，导数为：  
-$ f'(p) = \text{power} \cdot 2^{\text{power} - 1} \cdot (1 - p)^{\text{power} - 1} $
+- 设 $u = 2p$，则 $f(p) = \frac{1}{2} u^{\text{power}}$，且 $\frac{du}{dp} = 2$。
+- 对 $p$ 求导：
 
+$f'(p) = \frac{1}{2} \cdot \text{power} \cdot u^{\text{power} - 1} \cdot \frac{du}{dp}$
 
-通过以上计算，我们证明了对于任意 $ \text{power} $，该分段函数在 $ p = 0.5 $ 处的左导数和右导数都等于 $ \text{power} $，因此它们相等。这意味着函数在 $ p = 0.5 $ 处是可导的，且导数在该点连续。
+$= \frac{1}{2} \cdot \text{power} \cdot (2p)^{\text{power} - 1} \cdot 2$
+
+$= \text{power} \cdot (2p)^{\text{power} - 1}$
+
+$= \text{power} \cdot 2^{\text{power} - 1} \cdot p^{\text{power} - 1}$
+
+于是，当 $p < 0.5$ 时，导数为：
+
+$f'(p) = \text{power} \cdot 2^{\text{power} - 1} \cdot p^{\text{power} - 1}$
+
+**(2) 对于 $p \geq 0.5$ 的部分**
+
+函数为：
+
+$f(p) = 1 - \frac{(2(1 - p))^{\text{power}}}{2}$
+
+- 设 $v = 2(1 - p)$，则 $f(p) = 1 - \frac{1}{2} v^{\text{power}}$，且 $\frac{dv}{dp} = -2$。
+- 对 $p$ 求导：
+
+$f'(p) = 0 - \frac{1}{2} \cdot \text{power} \cdot v^{\text{power} - 1} \cdot \frac{dv}{dp}$
+
+$= -\frac{1}{2} \cdot \text{power} \cdot (2(1 - p))^{\text{power} - 1} \cdot (-2)$
+
+$= \text{power} \cdot (2(1 - p))^{\text{power} - 1}$
+
+$= \text{power} \cdot 2^{\text{power} - 1} \cdot (1 - p)^{\text{power} - 1}$
+
+于是，当 $p \geq 0.5$ 时，导数为：
+
+$f'(p) = \text{power} \cdot 2^{\text{power} - 1} \cdot (1 - p)^{\text{power} - 1}$
+
+通过以上计算，我们证明了对于任意 $\text{power}$，该分段函数在 $p = 0.5$ 处的左导数和右导数都等于 $\text{power}$，因此它们相等。这意味着函数在 $p = 0.5$ 处是可导的，且导数在该点连续。
